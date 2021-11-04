@@ -28,7 +28,7 @@ public class Main {
             String in = scanner.nextLine();
             List<String> parts = Arrays.asList(in.split(" ", -1));
             Stack<Float> numbers = new Stack<>();
-            for (int i = parts.size() - 1; i >= 0; i--) {
+            for (int i = 0; i < parts.size(); i++) {
                 String current = parts.get(i);
                 if (operations.containsKey(current)) {
                     float result = operations.get(current).executeOperation(numbers.pop(), numbers.pop());
