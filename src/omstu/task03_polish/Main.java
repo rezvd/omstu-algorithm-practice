@@ -6,12 +6,7 @@ import omstu.task03_polish.operations.OperationMultiply;
 import omstu.task03_polish.operations.OperationSum;
 import omstu.task03_polish.operations.Operation;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 public class Main {
 
@@ -25,19 +20,38 @@ public class Main {
 
 
         while(true) {
+            System.out.println("\nEnter input string: ");
             String in = scanner.nextLine();
             List<String> parts = Arrays.asList(in.split(" ", -1));
             Stack<Float> numbers = new Stack<>();
-            for (int i = 0; i < parts.size(); i++) {
+            boolean isSuccess = true;
+            for (int i = 0; i < parts.size() && isSuccess; i++) {
                 String current = parts.get(i);
                 if (operations.containsKey(current)) {
-                    float result = operations.get(current).executeOperation(numbers.pop(), numbers.pop());
+                    float result = 0;
+                    try {
+                        float operand2 = numbers.pop();
+                        float operand1 = numbers.pop();
+                        result = operations.get(current).executeOperation(operand1, operand2);
+                    } catch (EmptyStackException e) {
+                        isSuccess = false;
+                        System.out.println("Not enough arguments");
+                    } catch (Exception e) {
+                        isSuccess = false;
+                        System.out.println(e.getMessage());
+                        break;
+                    }
                     numbers.push(result);
                 } else {
-                    numbers.push(Float.valueOf(current));
+                    try {
+                        numbers.push(Float.valueOf(current));
+                    } catch (NumberFormatException e) {
+                        isSuccess = false;
+                        System.out.println("There is no such operation");
+                    }
                 }
             }
-            System.out.println("Result: " + numbers.pop());
+            if (isSuccess) System.out.println("Result: " + numbers.pop());
         }
     }
 }
