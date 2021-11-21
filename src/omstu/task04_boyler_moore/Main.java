@@ -1,20 +1,26 @@
 package omstu.task04_boyler_moore;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        String string = "abeccaabadbabbad";
-        String template = "колокол";
-        Map<Character, Integer> stopSymbolsTable = createStopSymbolsTable(template);
-        Map<String, Integer> suffixesTable = createSuffixesTable(template);
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Table of stop symbols:");
+        System.out.println("\nEnter search string: ");
+        String string = scanner.nextLine();
+
+        System.out.println("\nEnter template string: ");
+        String template = scanner.nextLine();
+
+        Map<Character, Integer> stopSymbolsTable = createStopSymbolsTable(template);
+        int[] suffixesTable = createSuffixesTable(template);
+
+        System.out.println("\nTable of stop symbols:");
         stopSymbolsTable.forEach((k,v) -> System.out.println("   " + k + ": " + v ));
         System.out.println("\nTable of suffixes:");
-        suffixesTable.forEach((k,v) -> System.out.println("   " + k + ": " + v ));
+        for(int i = 0; i < suffixesTable.length; i++)
+            System.out.println("   " + template.substring(i + 1) + ": " + suffixesTable[i]);
 
         int templatePosition = 0;
         int occurrencesNumber = 0;
@@ -24,44 +30,56 @@ public class Main {
                 if (string.charAt(templatePosition + i) != template.charAt(i))
                     break;
             }
+            int shift = 0;
             if (i == template.length() - 1) {       // эвристика стоп-символа
-                templatePosition += stopSymbolsTable.getOrDefault(template.charAt(i), 1);
-            } else if (i == 0) {                    // совпадение
+                shift = stopSymbolsTable.getOrDefault(template.charAt(i), 1);
+            } else if (i == -1) {                    // совпадение
                 occurrencesNumber++;
-                templatePosition += suffixesTable.getOrDefault(template.substring(i), 1);
+                shift = suffixesTable[template.length() - 1];
             } else {                                // эвристика суффикса
-                templatePosition += suffixesTable.getOrDefault(template.substring(i + 1), 1);
+                shift = suffixesTable[template.length() - i];
             }
+            templatePosition += shift;
         }
-        System.out.println(occurrencesNumber);
+        System.out.println("\nResult: " + occurrencesNumber);
     }
 
     static Map<Character, Integer> createStopSymbolsTable(String template) {
         Map<Character, Integer> stopSymbolsTable = new HashMap<>();
         template = template.substring(0, template.length() - 1);
-        System.out.println(template);
         for(char c: template.toCharArray()) {
             stopSymbolsTable.put(c, template.lastIndexOf(c) + 1);
         }
         return stopSymbolsTable;
     }
 
-    static Map<String, Integer> createSuffixesTable(final String template) {
-        Map<String, Integer> suffixesTable = new HashMap<>();
-        for (int i = template.length() - 1; i >= 0; i--) {
-            String suffix = template.substring(i);
-            if (i >= template.length() / 2) {
-
-            }
-            if (template.indexOf(suffix) == template.lastIndexOf(suffix))  {
-                suffixesTable.put(suffix, template.length());
-            } else {
-                if (suffix.equals("d")) {
-                    System.out.println("template.indexOf(suffix): " + template.indexOf(suffix) + " i: " + i);
-                }
-                suffixesTable.put(suffix, template.length() - template.indexOf(suffix) - 1);
-            }
+    static int[] createSuffixesTable(final String template) {
+        int[] prefixFunction = prefixFunction(template);
+        int[] prefixFunctionReversed = prefixFunction(new StringBuilder(template).reverse().toString());
+        int[] suffixesTable = new int[template.length()];
+        for (int j = 0; j < template.length() - 1; j++)
+            suffixesTable[j] = template.length() - prefixFunction[template.length() - 1] - 1;
+        for (int i = 1; i < template.length() - 1; i++) {
+            int j = template.length() - prefixFunctionReversed[i] - 1;
+            suffixesTable[j] = Math.min(suffixesTable[j], i - prefixFunctionReversed[i]);
+        }
+        for (int i = 0; i < template.length(); i++) {
+            suffixesTable[i] += 1;
         }
         return suffixesTable;
+    }
+
+    static int[] prefixFunction(String s) {
+        int n = s.length();
+        int[] pi = new int[n];
+        for (int i = 1; i < n; ++i) {
+            int j = pi[i-1];
+            while (j > 0 && s.charAt(i) != s.charAt(j))
+                j = pi[j - 1];
+            if (s.charAt(i) == s.charAt(j))
+                ++j;
+            pi[i] = j;
+        }
+        return pi;
     }
 }
