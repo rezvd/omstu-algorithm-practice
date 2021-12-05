@@ -1,4 +1,4 @@
-package omstu.task04_boyler_moore;
+package omstu.task03_boyler_moore;
 
 import java.util.*;
 

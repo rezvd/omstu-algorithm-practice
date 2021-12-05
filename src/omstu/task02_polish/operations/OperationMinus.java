@@ -1,4 +1,4 @@
-package omstu.task03_polish.operations;
+package omstu.task02_polish.operations;
 
 public class OperationMinus implements Operation {
     @Override

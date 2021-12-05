@@ -1,10 +1,10 @@
-package omstu.task03_polish;
+package omstu.task02_polish;
 
-import omstu.task03_polish.operations.OperationDivide;
-import omstu.task03_polish.operations.OperationMinus;
-import omstu.task03_polish.operations.OperationMultiply;
-import omstu.task03_polish.operations.OperationSum;
-import omstu.task03_polish.operations.Operation;
+import omstu.task02_polish.operations.OperationDivide;
+import omstu.task02_polish.operations.OperationMinus;
+import omstu.task02_polish.operations.OperationMultiply;
+import omstu.task02_polish.operations.OperationSum;
+import omstu.task02_polish.operations.Operation;
 
 import java.util.*;
 
