@@ -1,4 +1,4 @@
-package omstu.task06_rabin_karp;
+package omstu.task05_rabin_karp;
 
 import java.util.Scanner;
 

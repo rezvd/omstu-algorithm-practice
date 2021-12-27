@@ -1,7 +1,5 @@
-package omstu.task05_kmp;
+package omstu.task04_kmp;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
