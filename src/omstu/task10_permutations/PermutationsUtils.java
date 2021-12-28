@@ -13,7 +13,8 @@ public class PermutationsUtils {
 
     public static <T> void getPermutations(List<T> sequence, List<List<T>> results, int index) {
         if (index == sequence.size() - 1) {
-            results.add(new ArrayList<>(sequence));
+            if (!results.contains(new ArrayList<>(sequence)))
+                results.add(new ArrayList<>(sequence));
         }
         for (int i = index; i < sequence.size(); i++) {
             swap(sequence, i, index);
@@ -24,6 +25,7 @@ public class PermutationsUtils {
 
     public static <T> void getPartialPermutations(List<T> set, List<List<T>>  results, List<T> accumulator, int index) {
         if (index == set.size()) {
+            if (!results.contains(new ArrayList<>(accumulator)))
             results.add(new ArrayList<>(accumulator));
         } else {
             accumulator.add(set.get(index));
