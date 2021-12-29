@@ -12,7 +12,7 @@ public class Main {
                 BufferedReader reader = new BufferedReader(fr)
         ) {
             final int MINUTE_PRICE = 3;
-            HashMap<String, Record> map = new HashMap<>();
+            HashTable<String, ClientRecord> map = new HashTable<>();
             String string = reader.readLine();
             while (string != null) {
                 List<String> line = Arrays.asList(string.split("\\|", -1));
@@ -20,11 +20,11 @@ public class Main {
                 String name = line.get(1);
                 int minutes = Integer.parseInt(line.get(2));
                 if (map.get(phoneNumber) != null) {
-                    Record record = map.get(phoneNumber);
-                    record.setMinutes(record.getMinutes() + minutes);
-                    record.setCost(record.getMinutes() * MINUTE_PRICE);
+                    ClientRecord clientRecord = map.get(phoneNumber);
+                    clientRecord.setMinutes(clientRecord.getMinutes() + minutes);
+                    clientRecord.setCost(clientRecord.getMinutes() * MINUTE_PRICE);
                 } else {
-                    map.add(phoneNumber, new Record(phoneNumber, name, minutes, minutes * MINUTE_PRICE));
+                    map.add(phoneNumber, new ClientRecord(phoneNumber, name, minutes, minutes * MINUTE_PRICE));
                 }
                 string = reader.readLine();
             }

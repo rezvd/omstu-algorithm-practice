@@ -1,12 +1,12 @@
 package omstu.task12_hash_table;
 
-public class Record {
+public class ClientRecord {
     private final String phoneNumber;
     private final String name;
     private int minutes;
     private int cost;
 
-    public Record(String phoneNumber, String name, int minutes, int cost) {
+    public ClientRecord(String phoneNumber, String name, int minutes, int cost) {
         this.phoneNumber = phoneNumber;
         this.name = name;
         this.minutes = minutes;

@@ -2,7 +2,7 @@ package omstu.task12_hash_table;
 
 import java.util.ArrayList;
 
-public class HashMap<K, V> {
+public class HashTable<K, V> {
     private final ArrayList<Pair<Integer, V>> map = new ArrayList<>();
 
     public V get(final K key) {
